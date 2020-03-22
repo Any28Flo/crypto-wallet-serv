@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema= mongoose.Schema;
 
 const User = require('./user-model');
-const Crypo = require('./user-model');
+const Crypo = require('./cripto-model')
 const walletSchema = new Schema(
 {
       name :{
@@ -17,15 +17,8 @@ const walletSchema = new Schema(
             maxlength: 200,
             trim : true
       },
-    /*   crypoCoins : {
-            [{type : Schema.Types.ObjectId, ref: 'Crypo'}]
-      }, */
-      createdBy : {
-            type :{type : SchemaType.ObjectId, ref: 'User'},
-            ref: 'user',
-            required : true,
-            trim : true
-      },
+      coins : { type : Schema.Types.ObjectId , ref: 'Crypo'},
+      createdBy : {type : Schema.Types.ObjectId, ref: 'User'},
       
 },
       {
@@ -33,7 +26,5 @@ const walletSchema = new Schema(
       }
 
 );
-
-
 const Wallet = mongoose.model('Wallet', walletSchema);
 module.exports = Wallet;

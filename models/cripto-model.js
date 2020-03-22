@@ -17,9 +17,6 @@ const cryptoSchema = new Schema (
                   type : Number,
                   trim : true
             }
-            
-
-
       },
       {
             timestamps: {createdAt: "created_at" , updatedAt : "updated_at"}

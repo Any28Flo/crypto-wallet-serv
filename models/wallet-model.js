@@ -26,5 +26,6 @@ const walletSchema = new Schema(
       }
 
 );
+walletSchema.index({coin : 1 , name : 1} , { unique : true});
 const Wallet = mongoose.model('Wallet', walletSchema);
 module.exports = Wallet;

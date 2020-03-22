@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Wallet = require('./wallet-model');
 
 const cryptoSchema = new Schema (
       {
@@ -7,7 +8,8 @@ const cryptoSchema = new Schema (
                   type : String,
                   required : true,
                   maxlength: 50,
-                  trim : true
+                  trim : true,
+                  unique : true
             },
             currentPrice :{
                   type: Number,
@@ -16,6 +18,10 @@ const cryptoSchema = new Schema (
             quantity :{
                   type : Number,
                   trim : true
+            },
+            wallet :{
+                  type : Schema.Types.ObjectId, ref: 'Wallet',
+                  
             }
       },
       {
@@ -23,6 +29,7 @@ const cryptoSchema = new Schema (
       }
 );
 
+cryptoSchema.index({wallet : 1 , name : 1} , {unique: true});
 const Crypto = mongoose.model ('Crypto', cryptoSchema);
 
 module.exports = Crypto;

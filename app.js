@@ -1,11 +1,24 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const app = express();
 
 const port = 3000;
+
+mongoose
+      .connect('mongodb://localhost/crypto-wallet-serv', {useNewUrlParser: true})
+      .then(x => {
+            console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+          })
+          .catch(err => {
+            console.error('Error connecting to mongo', err)
+          });
+      
+
 //MIDDLEWARE SETUP
 
 app.use(cors());

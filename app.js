@@ -6,7 +6,7 @@ const cors = require('cors');
 const app = express();
 
 const port = 3000;
-//MIDDLEWARE
+//MIDDLEWARE SETUP
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -15,14 +15,8 @@ app.use(morgan('dev'));
 
 //ROUTES
 
-app.get('/', log, (req,res) =>{
-    res.send({'message' : 'hello'})
-});
-app.post('/' , (req, res) =>{
-
-    console.log(req.body);
-    res.send({'message' : 'ok'})
-});
+app.use('/api',require('./routes/user-routes'));
+app.use('/api', require('./routes/wallet-routes'));
 
 app.listen(port , () => console.log("Server runing "));
 

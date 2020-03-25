@@ -20,10 +20,8 @@ const newToken = User =>{
   })
 };
 userRoutes.post('/signup' , (req, res) =>{
-  const username= req.body.username;
-  const password = req.body.password;
-  const email = req.body.email;
-  const image = req.body.image;
+  const { username, password, email, image} = req.body;
+
   if(!req.body.username || !req.body.password || !req.body.email){
     return res.status(400).send({message : 'Need email and password'})
   }
@@ -41,12 +39,11 @@ userRoutes.post('/signup' , (req, res) =>{
       return
     }
 
-    const salt     = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(password, salt);
+   
 
     const newUser = new User({
       username :username,
-      password:hashPass,
+      password:password,
       email:email,
       image:image
     });
@@ -58,7 +55,7 @@ userRoutes.post('/signup' , (req, res) =>{
        }
        const token = newToken(newUser);
        console.log(token)
-       res.status(200).send({token});
+       res.status(200).send({newUser, token});
 
      })
 
@@ -67,24 +64,36 @@ userRoutes.post('/signup' , (req, res) =>{
   
 });
 userRoutes.post('/signin' , (req,res)=>{
-  const username = req.body.username;
-  const password = req.body.password;
-  if(!username || !password){
+  const {email,password} = req.body;
+  if(!email || !password){
     return res.status(400).send({message : 'need username and password'})
   }
   const invalid = { message : ' Invalid email and password combination'}
 
- const user =  User.findOne({email : email})
-  .select('email password')
-  .exec()
+  User.findOne({email : email}, (err, user) =>{
+    if(err){
+      console.error(err);
+      res.status(500).json({ 'error' : 'Internal error please try again'});
 
-  if(!user){
-    return res.status(401).send(invalid)
-  }
-  const match = user.checkPassword(password)
-  console.log(match)
+    }else if(!user){
+      return res.status(401).json({'message' : 'Incorrect email or password'})
+    }else{
+      const payload = {email};
+      const token = jwt.sign(payload, 'winteriscomming',{
+        expiresIn:'1h'
+      })
+      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+    }
+  })
 
-
+//  user.verifyToken(password), (err , same) =>{
+//    if(err){
+//      
+//    
+//  }
+   
+ 
+ 
 })
 /*
 

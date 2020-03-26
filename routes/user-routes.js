@@ -2,7 +2,7 @@ const express = require('express');
 const userRoutes = express.Router();
 const bcrypt  = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+const withAuth = require('./../middlewares/auth');
 const User = require('../models/user-model');
 
 const newToken = User =>{
@@ -48,7 +48,6 @@ userRoutes.post('/signup' , (req, res) =>{
       email:email,
       image:image
     });
-    console.log(newUser)
      newUser.save( err =>{
        if(err){
          res.status(400).json({'message' : 'Saving user to database went wrong'})
@@ -69,7 +68,6 @@ userRoutes.post('/signin' , (req,res)=>{
   if(!email || !password){
     return res.status(400).send({message : 'need username and password'})
   }
-  const invalid = { message : ' Invalid email and password combination'}
 
   User.findOne({email : email}, (err, user) =>{
     console.log(user)
@@ -93,18 +91,33 @@ userRoutes.post('/signin' , (req,res)=>{
           const token = jwt.sign(payload, 'winteriscomming',{
           expiresIn:'1h'
       })
-      res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+      res.status(200).send({user, token});
+
+      res.cookie('token', {user, token}, { httpOnly: true }).sendStatus(200);
 
         }
 
       } )
     }
-  })
+  });
 
 
+ userRoutes.get('/:id', withAuth,  (req,res) =>{
+    const {id} = req.body;
+   User.findOne({_id : id}, (err, user) => {
+     if(err){
+       res.status(500).json({ 'error' : 'Internal error please try again'});
+
+     }
+     if(user){
+       console.log(user);
+     }
+   })
+
+
+ })
  
- 
-})
+});
 
 
 module.exports = userRoutes;

@@ -39,8 +39,6 @@ userRoutes.post('/signup' , (req, res) =>{
       return
     }
 
-   
-
     const newUser = new User({
       username :username,
       password:password,
@@ -78,42 +76,28 @@ userRoutes.post('/signin' , (req,res)=>{
     }else if(!user){
       return res.status(401).json({'message' : 'Incorrect email or password'})
     }else{
-      const payload = {email};
-      const token = jwt.sign(payload, 'winteriscomming',{
+      user.checkPassword(password, (err, same) =>{
+        if(err){
+          res.status(500).json({'message' : 'Internal error please try again'})
+        }else if(!same){
+          res.status(401).json({'message' : 'Incorrect email or password'})
+        }else{
+          const payload = {email};
+          const token = jwt.sign(payload, 'winteriscomming',{
         expiresIn:'1h'
       })
       res.cookie('token', token, { httpOnly: true }).sendStatus(200);
+
+        }
+
+      } )
     }
   })
 
-//  user.verifyToken(password), (err , same) =>{
-//    if(err){
-//      
-//    
-//  }
-   
+
  
  
 })
-/*
 
-userRoutes.get('/login' , controller);
-
-userRoutes.post('/logout' , (req, res) =>{
-    res.send({'logout' : 'id:111231'})
-});
-
-userRoutes.get('/loggedin' , (req, res) =>{
-  res.send({'logout' : 'sucess'})
-})
-
-userRoutes.put('/:id' , (req, res) =>{
-
-})
-
-userRoutes.delete('/:id' , (req, res) =>{
-  
-})
-*/
 
 module.exports = userRoutes;

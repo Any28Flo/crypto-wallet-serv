@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const userRoutes = express.Router();
 const bcrypt  = require('bcrypt');
@@ -6,19 +8,12 @@ const withAuth = require('./../middlewares/auth');
 const User = require('../models/user-model');
 
 const newToken = User =>{
- return jwt.sign({id : User.id}  , 'winteriscomming' , {
+ return jwt.sign({id : User.id}  , process.env.SESSION_SECRET , {
     expiresIn:  86400
   });
 };
 
- const verifyToken = token =>{
-  new Promise((resolve, reject) =>{
-    jwt.verify(token , 'winteriscomming' , (err, payload) =>{
-      if(err) return reject(err)
-      resolve(payload)
-    })
-  })
-};
+
 userRoutes.post('/signup' , (req, res) =>{
   const { username, password, email, image} = req.body;
 
@@ -88,12 +83,12 @@ userRoutes.post('/signin' , (req,res)=>{
           res.status(401).json({'message' : 'Incorrect email or password'})
         }else{
           const payload = {email};
-          const token = jwt.sign(payload, 'winteriscomming',{
+          const token = jwt.sign(payload, process.env.SESSION_SECRET ,{
           expiresIn:'1h'
-      })
+      });
       res.status(200).send({user, token});
 
-      res.cookie('token', {user, token}, { httpOnly: true }).sendStatus(200);
+    //  res.cookie('token', {user, token}, { httpOnly: true }).sendStatus(200);
 
         }
 
@@ -101,23 +96,8 @@ userRoutes.post('/signin' , (req,res)=>{
     }
   });
 
-
- userRoutes.get('/:id', withAuth,  (req,res) =>{
-    const {id} = req.body;
-   User.findOne({_id : id}, (err, user) => {
-     if(err){
-       res.status(500).json({ 'error' : 'Internal error please try again'});
-
-     }
-     if(user){
-       console.log(user);
-     }
-   })
-
-
- })
- 
 });
+
 
 
 module.exports = userRoutes;

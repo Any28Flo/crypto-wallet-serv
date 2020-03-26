@@ -1,26 +1,40 @@
 const jwt = require('jsonwebtoken');
-const secret = 'winteriscomming';
+const User = require('../models/user-model');
 
-const witAuth = (req, res,next) =>{
-    const token =
-        req.body.token ||
-        req.query.token ||
-        req.headers['x-access-toke'] ||
-        req.cookies.token;
-    if(!token){
-        res.status(401).send('Unauthorized : No token provided');
 
-    }else{
-        jwt.verify(token, secret, (err, decoded) =>{
-            if(err){
-                res.status(401).send('Unauthorized: Invalid token');
-            }else{
-                req.email = decoded.email;
-                next();
-            }
+const verifyToken = token =>{
+    new Promise((resolve, reject) =>{
+        jwt.verify(token , process.env.SESSION_SECRET  , (err, payload) =>{
+            if(err) return reject(err)
+            resolve(payload)
         })
+    })
+};
+ const protect = async (req, res, next) => {
+    const bearer = req.headers.authorization;
+
+    if (!bearer || !bearer.startsWith('Bearer ')) {
+        return res.status(401).end()
     }
 
-};
+    const token = bearer.split('Bearer ')[1].trim()
+    let payload;
+    try {
+        payload = await verifyToken(token)
+    } catch (e) {
+        return res.status(401).end()
+    }
 
-module.exports = witAuth;
+    const user = await User.findById(payload.id)
+        .select('-password')
+        .lean()
+        .exec()
+
+    if (!user) {
+        return res.status(401).end()
+    }
+
+    req.user = user;
+    next();
+};
+module.exports = protect;

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const protect =  require( "./middlewares/auth");
 
 const app = express();
 
@@ -27,11 +28,14 @@ app.use(morgan('dev'));
 app.use(cors({
   credentials : true,
   origin: ['http://localhost:3000'] 
-}))
+}));
+
+
+app.use('/api',require('./routes/user-routes'));
 
 //ROUTES
 
-app.use('/api',require('./routes/user-routes'));
+app.use('/api', protect);
 app.use('/api', require('./routes/wallet-routes'));
 
 app.listen(port , () => console.log("Server runing "));

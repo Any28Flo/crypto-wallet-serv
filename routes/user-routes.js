@@ -39,9 +39,12 @@ userRoutes.post('/signup' , (req, res) =>{
       return
     }
 
+    const salt     = bcrypt.genSaltSync(10);
+    const hashPass = bcrypt.hashSync(password, salt);
+
     const newUser = new User({
       username :username,
-      password:password,
+      password:hashPass,
       email:email,
       image:image
     });
@@ -69,6 +72,7 @@ userRoutes.post('/signin' , (req,res)=>{
   const invalid = { message : ' Invalid email and password combination'}
 
   User.findOne({email : email}, (err, user) =>{
+    console.log(user)
     if(err){
       console.error(err);
       res.status(500).json({ 'error' : 'Internal error please try again'});
@@ -77,14 +81,17 @@ userRoutes.post('/signin' , (req,res)=>{
       return res.status(401).json({'message' : 'Incorrect email or password'})
     }else{
       user.checkPassword(password, (err, same) =>{
+        console.log(err)
+        console.log(same)
         if(err){
           res.status(500).json({'message' : 'Internal error please try again'})
         }else if(!same){
+
           res.status(401).json({'message' : 'Incorrect email or password'})
         }else{
           const payload = {email};
           const token = jwt.sign(payload, 'winteriscomming',{
-        expiresIn:'1h'
+          expiresIn:'1h'
       })
       res.cookie('token', token, { httpOnly: true }).sendStatus(200);
 

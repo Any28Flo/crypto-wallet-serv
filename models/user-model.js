@@ -4,10 +4,27 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-      username :{type: String , required: true , unique: true, maxlength:20, trim:true},
-      password :{ type: String, required: true, trim : true},
-      email : { type: String, required: true, unique:true , trim:true},
-      image: {type: String},
+      username :{
+          type: String,
+          required: true,
+          unique: true,
+          maxlength:20,
+          trim:true
+      },
+      password :{
+          type: String,
+          required: true,
+          trim : true
+      },
+      email : {
+          type: String,
+          required: true,
+          unique:true,
+          trim:true
+      },
+      image: {
+          type: String
+      },
      
   
   },
@@ -28,7 +45,7 @@ userSchema.pre('save', function(next) {
       this.password = hash
       next()
     })
-  })
+  });
   //CheckedPassword
 
   userSchema.methods.checkPassword = function(password, callback) {

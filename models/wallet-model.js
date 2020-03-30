@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema= mongoose.Schema;
 
 const User = require('./user-model');
-const Crypo = require('./cripto-model')
+const Crypo = require('./cripto-model');
 const walletSchema = new Schema(
 {
       name :{
@@ -17,7 +17,7 @@ const walletSchema = new Schema(
             maxlength: 200,
             trim : true
       },
-      coins : { type : Schema.Types.ObjectId , ref: 'Crypo'},
+      coins : { type : Array},
       createdBy : {type : Schema.Types.ObjectId, ref: 'User'},
       
 },

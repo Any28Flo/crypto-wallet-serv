@@ -4,8 +4,12 @@
     <list default="true" id="78941e24-2cca-4e8e-a414-138c59abc778" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/middlewares/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user-model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/user-model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/wallet-model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/wallet-model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/user-routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/user-routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/wallet-routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/wallet-routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +50,10 @@
       <updated>1584883201596</updated>
       <workItem from="1584883203211" duration="7262000" />
       <workItem from="1584915295257" duration="804000" />
-      <workItem from="1585199691187" duration="4147000" />
+      <workItem from="1585199691187" duration="4211000" />
+      <workItem from="1585272377748" duration="3262000" />
+      <workItem from="1585419782048" duration="2970000" />
+      <workItem from="1585501801109" duration="18809000" />
     </task>
     <servers />
   </component>
@@ -54,13 +61,13 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1173" y="302" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1584885568316">
+    <state x="1173" y="302" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585548550337">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="1173" y="302" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1584885568316" />
-    <state x="1103" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1585204328813">
+    <state x="1173" y="302" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1585548550337" />
+    <state x="1103" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1585541885522">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="1103" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1585204328813" />
+    <state x="1103" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1585541885522" />
   </component>
 </project>

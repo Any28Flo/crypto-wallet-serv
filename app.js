@@ -5,7 +5,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const protect =  require( "./middlewares/auth");
-
+const cookieParser = require('cookie-parser');
+const withAuth = require("./middlewares/withAuth");
 const app = express();
 
 const port = 5000;
@@ -29,14 +30,15 @@ app.use(cors({
   credentials : true,
   origin: ['http://localhost:3000'] 
 }));
+app.use(cookieParser());
 
 
 app.use('/api',require('./routes/user-routes'));
 
 //ROUTES
 
-app.use('/api', protect);
-app.use('/api', require('./routes/wallet-routes'));
+
+app.use('/api',withAuth, require('./routes/wallet-routes'));
 
 app.listen(port , () => console.log("Server runing "));
 

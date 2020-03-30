@@ -49,7 +49,6 @@ userRoutes.post('/signup' , (req, res) =>{
          return;
        }
        const token = newToken(newUser);
-       console.log(token)
        res.status(200).send({newUser, token});
 
      })
@@ -86,9 +85,14 @@ userRoutes.post('/signin' , (req,res)=>{
           const token = jwt.sign(payload, process.env.SESSION_SECRET ,{
           expiresIn:'1h'
       });
-      res.status(200).send({user, token});
+      //
 
-    //  res.cookie('token', {user, token}, { httpOnly: true }).sendStatus(200);
+         // localStorage.setItem("JWT", token);
+          //res.
+       /*res.cookie('access_token', 'Bearer ' + token, {
+            expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
+          })*/
+        res.cookie('token', {user, token}, { httpOnly: true }).status(200).send({user, token})
 
         }
 

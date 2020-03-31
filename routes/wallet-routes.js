@@ -3,14 +3,12 @@ const walletRoutes = express.Router();
 
 const Wallet = require('./../models/wallet-model');
 
-
-
 walletRoutes.post('/wallets' , (req, res) =>{
 
  const {walletName , description, coins, createdBy} = req.body;
 
  if(!walletName|| !description || !coins || !createdBy){
-  return res.status(400).send({message : 'Please fill in all the fields of the form '})
+  return res.status(400).json({message : 'Please fill in all the fields of the form '})
  }
  const newWallet = new Wallet({
   name : walletName,
@@ -18,20 +16,28 @@ walletRoutes.post('/wallets' , (req, res) =>{
   coins : [],
   createdBy : createdBy
  });
- 
-newWallet.save( err =>{
- if(err){
-  res.status(400).json({'message' : 'Saving wallet to database went wrong'});
-  return;
- }
- res.status(200).json({'message' : 'Saving new wallet sucefully'})
-})
+
+ newWallet.save( err =>{
+  if(err){
+   res.status(400).json({'message' : 'Saving wallet to database went wrong'});
+   return;
+  }
+   res.status(200).json({'message' : 'Saving new wallet sucefully', })
+ })
 });
 
-/*walletRoutes.get('/wallets' , (req , res) =>{
-
+walletRoutes.get('/wallets' , (req , res) =>{
+ //{'createdBy' :  mongoose.Types.ObjectId(_userId) }
+ Wallet.find()
+     .populate('coins')
+     .then( wallets =>{
+      console.log(wallets);
+      //res.status(200).json({'message' : "Wallet list"},{wallets:wallets})
+      res.status(200).send({'message' :'Walet List' , wallets: wallets})
+     })
+     .catch(e => console.log(e))
 });
-
+/*
 walletRoutes.put('/wallets/:id' , (req, res) =>{
 
 });

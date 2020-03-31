@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="78941e24-2cca-4e8e-a414-138c59abc778" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user-model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/user-model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wallet-model.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/wallet-model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/user-routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/user-routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/wallet-routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/wallet-routes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +47,10 @@
       <workItem from="1585199691187" duration="4211000" />
       <workItem from="1585272377748" duration="3262000" />
       <workItem from="1585419782048" duration="2970000" />
-      <workItem from="1585501801109" duration="18809000" />
+      <workItem from="1585501801109" duration="21495000" />
+      <workItem from="1585572512054" duration="3368000" />
+      <workItem from="1585616938651" duration="1186000" />
+      <workItem from="1585618608513" duration="3082000" />
     </task>
     <servers />
   </component>

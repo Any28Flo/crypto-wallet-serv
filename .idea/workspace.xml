@@ -23,7 +23,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../materialui/React-Material-UI-Cookbook" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -50,7 +50,10 @@
       <workItem from="1585501801109" duration="21495000" />
       <workItem from="1585572512054" duration="3368000" />
       <workItem from="1585616938651" duration="1186000" />
-      <workItem from="1585618608513" duration="3082000" />
+      <workItem from="1585618608513" duration="4609000" />
+      <workItem from="1585705948367" duration="2791000" />
+      <workItem from="1585740611499" duration="596000" />
+      <workItem from="1585810902723" duration="69000" />
     </task>
     <servers />
   </component>
@@ -62,6 +65,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="1173" y="302" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1585548550337" />
+    <state x="743" y="311" width="424" height="484" key="FileChooserDialogImpl" timestamp="1585809546618">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="743" y="311" width="424" height="484" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1585809546618" />
     <state x="1103" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1585541885522">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>

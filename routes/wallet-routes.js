@@ -27,13 +27,14 @@ walletRoutes.post('/wallets' , (req, res) =>{
 });
 
 walletRoutes.get('/wallets' , (req , res) =>{
- //{'createdBy' :  mongoose.Types.ObjectId(_userId) }
- Wallet.find()
+ const createdBy= req.query.createdBy;
+ console.log('serv'+createdBy);
+ //
+ Wallet.find({'createdBy' :  createdBy })
      .populate('coins')
      .then( wallets =>{
       console.log(wallets);
-      //res.status(200).json({'message' : "Wallet list"},{wallets:wallets})
-      res.status(200).send({'message' :'Walet List' , wallets: wallets})
+      res.status(200).json({'message' :'Walet List' , wallets: wallets})
      })
      .catch(e => console.log(e))
 });

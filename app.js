@@ -4,15 +4,14 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const protect =  require( "./middlewares/auth");
 const cookieParser = require('cookie-parser');
 const withAuth = require("./middlewares/withAuth");
 const app = express();
 
-const port = 5000;
+const port = process.env.PORT;
 
 mongoose
-      .connect('mongodb://localhost/crypto-wallet-serv', {useNewUrlParser: true})
+      .connect( process.env.DB_DEV, {useNewUrlParser: true})
       .then(x => {
             console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
           })

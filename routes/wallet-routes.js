@@ -28,8 +28,7 @@ walletRoutes.post('/wallets' , (req, res) =>{
 
 walletRoutes.get('/wallets' , (req , res) =>{
  const createdBy= req.query.createdBy;
- console.log('serv'+createdBy);
- //
+
  Wallet.find({'createdBy' :  createdBy })
      .populate('coins')
      .then( wallets =>{

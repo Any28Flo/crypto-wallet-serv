@@ -1,5 +1,8 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const secret = 'winteriscomming';
+
+
+const secret = process.env.SESSION_SECRET;
 
 const withAuth = function(req, res, next) {
 

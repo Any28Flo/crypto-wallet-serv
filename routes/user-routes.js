@@ -4,7 +4,6 @@ const express = require('express');
 const userRoutes = express.Router();
 const bcrypt  = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const withAuth = require('./../middlewares/auth');
 const User = require('../models/user-model');
 
 const newToken = User =>{

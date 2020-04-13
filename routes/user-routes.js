@@ -4,6 +4,8 @@ const express = require('express');
 const userRoutes = express.Router();
 const bcrypt  = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const five = require("johnny-five");
+
 const User = require('../models/user-model');
 
 const newToken = User =>{
@@ -63,7 +65,7 @@ userRoutes.post('/signin' , (req,res)=>{
   }
 
   User.findOne({email : email}, (err, user) =>{
-    console.log(user)
+    console.log(user.username);
     if(err){
       console.error(err);
       res.status(500).json({ 'error' : 'Internal error please try again'});
@@ -72,8 +74,7 @@ userRoutes.post('/signin' , (req,res)=>{
       return res.status(401).json({'message' : 'Incorrect email or password'})
     }else{
       user.checkPassword(password, (err, same) =>{
-        console.log(err)
-        console.log(same)
+
         if(err){
           res.status(500).json({'message' : 'Internal error please try again'})
         }else if(!same){
@@ -84,14 +85,26 @@ userRoutes.post('/signin' , (req,res)=>{
           const token = jwt.sign(payload, process.env.SESSION_SECRET ,{
           expiresIn:'1h'
       });
-      //
+      
+          const board = new five.Board()
 
-         // localStorage.setItem("JWT", token);
-          //res.
-       /*res.cookie('access_token', 'Bearer ' + token, {
-            expires: new Date(Date.now() + 8 * 3600000) // cookie will be removed after 8 hours
-          })*/
-        res.cookie('token', {user, token}, { httpOnly: true }).status(200).send({user, token})
+          board.on('ready', function() {
+           let  lcd = new five.LCD({
+              pins: [7, 8, 9, 10, 11, 12],
+              backlight: 6,
+              rows: 2,
+              cols: 16
+            });
+            lcd.clear().print("Hello");
+            lcd.cursor(1, 0);
+            lcd.clear().print(user.username);
+
+            this.repl.inject({
+              lcd: lcd
+            });
+
+          });
+          res.cookie('token', {user, token}, { httpOnly: true }).status(200).send({user, token})
 
         }
 

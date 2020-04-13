@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const withAuth = require("./middlewares/withAuth");
+
 const app = express();
 
 const port = process.env.PORT;
@@ -18,7 +19,8 @@ mongoose
           .catch(err => {
             console.error('Error connecting to mongo', err)
           });
-      
+
+
 
 //MIDDLEWARE SETUP
 

@@ -85,7 +85,7 @@ userRoutes.post('/signin' , (req,res)=>{
           const token = jwt.sign(payload, process.env.SESSION_SECRET ,{
           expiresIn:'1h'
       });
-      
+
           const board = new five.Board()
 
           board.on('ready', function() {

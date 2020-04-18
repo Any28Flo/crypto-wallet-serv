@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT;
 
 mongoose
-      .connect( process.env.DB_DEV, {useNewUrlParser: true})
+      .connect( process.env.DB_PROD, {useNewUrlParser: true})
       .then(x => {
             console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
           })

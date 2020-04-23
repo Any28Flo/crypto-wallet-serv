@@ -43,6 +43,21 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
     next();
 });
+
+// Set up a whitelist and check against it:
+const whitelist = ['http://localhost:3000', 'http://example2.com']
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+// Then pass them to cors:
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 

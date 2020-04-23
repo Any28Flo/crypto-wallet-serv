@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ",
-    "start": "nodemon app.js "
+
   },
   "author": "",
   "license": "ISC",
@@ -24,8 +23,5 @@
     "morgan": "^1.10.0",
     "path": "^0.12.7",
     "validator": "^13.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
   }
 }

@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT;
 
 mongoose
-      .connect( process.env.DB_DEV, {useNewUrlParser: true})
+      .connect( process.env.DB_PROD, {useNewUrlParser: true})
       .then(x => {
             console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
           })
@@ -28,10 +28,21 @@ mongoose
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+/*
 app.use(cors({
   credentials : true,
   origin: ['http://localhost:3000'] 
 }));
+
+*/
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
+});
 app.use(cookieParser());
 
 

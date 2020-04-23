@@ -6,13 +6,14 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const withAuth = require("./middlewares/withAuth");
+const path         = require('path');
 
 const app = express();
 
 const port = process.env.PORT;
 
 mongoose
-      .connect( process.env.DB_PROD, {useNewUrlParser: true})
+      .connect( process.env.DB_DEV, {useNewUrlParser: true})
       .then(x => {
             console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
           })
@@ -33,6 +34,15 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+const index = require('./routes/index');
+app.use('/',index)
 
 app.use('/api',require('./routes/user-routes'));
 

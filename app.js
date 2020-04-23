@@ -28,13 +28,8 @@ mongoose
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
-/*
-app.use(cors({
-  credentials : true,
-  origin: ['http://localhost:3000'] 
-}));
 
-*/
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", '*');
@@ -44,26 +39,19 @@ app.use(function(req, res, next) {
     next();
 });
 
-// Set up a whitelist and check against it:
-const whitelist = ['http://localhost:3000', 'http://example2.com']
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
-}
 
-// Then pass them to cors:
-app.use(cors(corsOptions));
+
 app.use(cookieParser());
 
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cors({
+    credentials : true,
+    origin: ['http://localhost:3001']
+}));
 
 
 

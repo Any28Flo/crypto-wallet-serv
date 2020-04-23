@@ -61,7 +61,7 @@ userRoutes.post('/signup' , (req, res) =>{
 userRoutes.post('/signin' , (req,res)=>{
   const {email,password} = req.body;
   if(!email || !password){
-    return res.status(400).send({message : 'need username and password'})
+    return res.status(400).json({message : 'need username and password'})
   }
 
   User.findOne({email : email}, (err, user) =>{

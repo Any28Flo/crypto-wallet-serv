@@ -11,10 +11,6 @@ const cryptoSchema = new Schema (
                   trim : true,
                   unique : true
             },
-            currentPrice :{
-                  type: Number,
-                  trim : true
-            },
             quantity :{
                   type : Number,
                   trim : true

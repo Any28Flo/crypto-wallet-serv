@@ -32,18 +32,12 @@ walletRoutes.get('/wallets' , (req , res) =>{
  Wallet.find({'createdBy' :  createdBy })
      .populate('coins')
      .then( wallets =>{
-      console.log(wallets);
-      res.status(200).json({'message' :'Walet List' , wallets: wallets})
+
+      res.status(200).json({'message' :'Cypto List' , wallets: wallets})
      })
      .catch(e => console.log(e))
 });
-/*
-walletRoutes.put('/wallets/:id' , (req, res) =>{
 
-});
 
-walletRoutes.delete('wallets/:id' , (req, res) =>{
-
-});*/
 
 module.exports = walletRoutes;

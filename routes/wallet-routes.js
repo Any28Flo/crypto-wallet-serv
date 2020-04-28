@@ -8,7 +8,7 @@ walletRoutes.post('/wallets' , (req, res) =>{
  const {walletName , description, coins, createdBy} = req.body;
 
  if(!walletName|| !description || !coins || !createdBy){
-  return res.status(400).json({message : 'Please fill in all the fields of the form '})
+  return res.status(400).json({msg: 'Please fill in all the fields of the form '})
  }
  const newWallet = new Wallet({
   name : walletName,
@@ -19,10 +19,10 @@ walletRoutes.post('/wallets' , (req, res) =>{
 
  newWallet.save( err =>{
   if(err){
-   res.status(400).json({'message' : 'Saving wallet to database went wrong'});
+   res.status(400).json({msg : 'Wallet name was taken. Choose new one'});
    return;
   }
-   res.status(200).json({'message' : 'Saving new wallet sucefully', })
+   res.status(200).json({msg : 'Saving new wallet sucefully', })
  })
 });
 
@@ -33,7 +33,7 @@ walletRoutes.get('/wallets' , (req , res) =>{
      .populate('coins')
      .then( wallets =>{
 
-      res.status(200).json({'message' :'Cypto List' , wallets: wallets})
+      res.status(200).json({msg: "Save wallet sucefully"})
      })
      .catch(e => console.log(e))
 });

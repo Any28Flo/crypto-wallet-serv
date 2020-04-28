@@ -1,40 +1,24 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user-model');
+const jwt = require("jsonwebtoken");
 
-
-const verifyToken = token =>{
-    new Promise((resolve, reject) =>{
-        jwt.verify(token , process.env.SESSION_SECRET  , (err, payload) =>{
-            if(err) return reject(err)
-            resolve(payload)
-        })
-    })
-};
- const protect = async (req, res, next) => {
-    const bearer = req.headers.authorization;
-
-    if (!bearer || !bearer.startsWith('Bearer ')) {
-        return res.status(401).end()
-    }
-
-    const token = bearer.split('Bearer ')[1].trim()
-    let payload;
+const auth = (req, res, next) => {
     try {
-        payload = await verifyToken(token)
-    } catch (e) {
-        return res.status(401).end()
+        const token = req.header("x-auth-token");
+        if (!token)
+            return res
+                .status(401)
+                .json({ msg: "No authentication token, authorization denied." });
+
+        const verified = jwt.verify(token, process.env.JWT_TOKEN);
+        if (!verified)
+            return res
+                .status(401)
+                .json({ msg: "Token verification failed, authorization denied." });
+
+        req.user = verified.id;
+        next();
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-
-    const user = await User.findById(payload.id)
-        .select('-password')
-        .lean()
-        .exec()
-
-    if (!user) {
-        return res.status(401).end()
-    }
-
-    req.user = user;
-    next();
 };
-module.exports = protect;
+
+module.exports = auth;

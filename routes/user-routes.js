@@ -52,6 +52,7 @@ userRoutes.post('/signup' , async (req, res) =>{
 
 userRoutes.post('/signin' , async (req,res)=>{
   const {email,password} = req.body;
+  console.log(email,password)
   try {
       if(!email || !password){
           return res.status(400).json({msg : 'Need username and password'})

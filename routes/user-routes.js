@@ -50,35 +50,37 @@ userRoutes.post('/signup' , async (req, res) =>{
   
 });
 
-userRoutes.post("/signin", async (req, res) => {
-    try {
-        const { email, password } = req.body;
+userRoutes.post('/signin' , async (req,res)=>{
+  const {email,password} = req.body;
+  try {
+      if(!email || !password){
+          return res.status(400).json({msg : 'Need username and password'})
+      }
+      const user = await User.findOne({email : email});
+      if(!user){
+          return res.status(401).json({msg : 'No account with this email has been registered'})
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if(!isMatch) return res.status(400).json({msg: "Invalid credentials."})
+      const token = jwt.sign({id: user._id}, process.env.JWT_TOKEN);
+      res.json({
+          token,
+          user:{
+              id: user._id,
+              email: user.email,
+              username : user.username
+          }
+      });
 
-        // validate
-        if (!email || !password)
-            return res.status(400).json({ msg: "Not all fields have been entered." });
 
-        const user = await User.findOne({ email: email });
-        if (!user)
-            return res
-                .status(400)
-                .json({ msg: "No account with this email has been registered." });
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
+  }catch (e) {
+      res.status(500).json({e: e.message})
+  }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        res.json({
-            token,
-            user: {
-                id: user._id,
-                displayName: user.displayName,
-                email: user.email,
-            },
-        });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+
+
+
 });
 
 

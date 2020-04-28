@@ -10,7 +10,7 @@ const path         = require('path');
 
 const app = express();
 
-const port = process.env.PORT;
+const PORT = process.env.PORT;
 
 mongoose
       .connect(process.env.DB_DEV, {useNewUrlParser: true})
@@ -39,12 +39,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors({
-    credentials : true,
-    origin: ['http://localhost:3000']
-}));
-
-
+app.use(cors());
 
 
 const index = require('./routes/index');
@@ -58,5 +53,5 @@ app.use('/api',require('./routes/user-routes'));
 app.use('/api',withAuth, require('./routes/wallet-routes'));
 app.use('/api', withAuth, require('./routes/crypto-routes'));
 
-app.listen(port , () => console.log("Server runing "));
+app.listen(PORT , () => console.log("Server runing "));
 

@@ -45,67 +45,40 @@ userRoutes.post('/signup' , async (req, res) =>{
 
 
     }catch (e) {
-        res.status(500).json({e});
+        res.status(500).json({e: e.message});
     }
-
-  
   
 });
-userRoutes.post('/signin' , (req,res)=>{
+userRoutes.post('/signin' , async (req,res)=>{
   const {email,password} = req.body;
-
-  console.log(email,password);
-  if(!email || !password){
-    return res.status(400).json({message : 'need username and password'})
-  }
-
-  User.findOne({email : email}, (err, user) =>{
-    console.log(user.username);
-    if(err){
-      console.error(err);
-      res.status(500).json({ 'error' : 'Internal error please try again'});
-
-    }else if(!user){
-      return res.status(401).json({'message' : 'Incorrect email or password'})
-    }else{
-      user.checkPassword(password, (err, same) =>{
-
-        if(err){
-          res.status(500).json({'message' : 'Internal error please try again'})
-        }else if(!same){
-
-          res.status(401).json({'message' : 'Incorrect email or password'})
-        }else{
-          const payload = {email};
-          const token = jwt.sign(payload, process.env.SESSION_SECRET ,{
-          expiresIn:'1h'
+  try {
+      if(!email || !password){
+          return res.status(400).json({msg : 'Need username and password'})
+      }
+      const user = await User.findOne({email : email});
+      if(!user){
+          return res.status(401).json({'message' : 'No account with this email has been registered'})
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if(!isMatch) return res.status(400).json({msg: "Invalid credentials."})
+      const token = jwt.sign({id: user._id}, process.env.JWT_TOKEN);
+      res.json({
+          token,
+          user:{
+              id: user._id,
+              email: user.email,
+              username : user.username
+          }
       });
 
-              const board = new five.Board()
 
-              board.on('ready', function() {
-               let  lcd = new five.LCD({
-                  pins: [7, 8, 9, 10, 11, 12],
-                  backlight: 6,
-                  rows: 2,
-                  cols: 16
-                });
-                lcd.clear().print("Hello");
-                lcd.cursor(1, 0);
-                lcd.clear().print(user.username);
+      
+  }catch (e) {
+      res.status(500).json({e: e.message})
+  }
 
-                this.repl.inject({
-                  lcd: lcd
-                });
 
-              });
-              res.cookie('token', {user, token}, { httpOnly: true }).status(200).send({user, token})
 
-        }
-
-      } )
-    }
-  });
 
 });
 

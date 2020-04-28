@@ -15,46 +15,39 @@ const newToken = User =>{
 };
 
 
-userRoutes.post('/signup' , (req, res) =>{
-  const { username, password, email, image} = req.body;
+userRoutes.post('/signup' , async (req, res) =>{
+    try{
+        const { username, password, email, image} = req.body;
+        //Validate actions
+        if(!username || !password || !email){
+            return res.status(400).json({msg: "Not all fields have been entered"});
+        }
+        if(password.length < 7){
+            res.status(400).json({msg : 'Make your password at least 8 characters long for security purposes.'});
+            return
+        }
+        const existingUser = await  User.findOne({username: username});
+        if(existingUser) {
+            return res
+                .status(400)
+                .json({msg: "Username taken. Choose another one."})
+        }
+        const salt     = await bcrypt.genSaltSync(10);
+        const hashPass = await bcrypt.hashSync(password, salt);
+        const newUser = new User({
+            username :username,
+            password:hashPass,
+            email:email,
+            image:image
+        });
+        const savedUser = await newUser.save();
+        res.json(savedUser);
 
-  if(!req.body.username || !req.body.password || !req.body.email){
-    return res.status(400).send({message : 'Need email and password'})
-  }
-  if(req.body.password.length < 7){
-    res.status(400).json({'message' : 'Make your password at least 8 characters long for security purposes.'});
-    return
-  }
-  User.findOne( User.findOne({username} , (err , foundUser) =>{
-    if(err){
-      res.status(500).json({'message' : 'Username check went bad.'});
-      return
+
+    }catch (e) {
+        res.status(500).json({e});
     }
-    if(foundUser){
-      res.status(400).json({'message' : 'Username taken. Choose another one.'});
-      return
-    }
 
-    const salt     = bcrypt.genSaltSync(10);
-    const hashPass = bcrypt.hashSync(password, salt);
-
-    const newUser = new User({
-      username :username,
-      password:hashPass,
-      email:email,
-      image:image
-    });
-     newUser.save( err =>{
-       if(err){
-         res.status(400).json({'message' : 'Saving user to database went wrong'})
-         return;
-       }
-       const token = newToken(newUser);
-       res.status(200).send({newUser, token});
-
-     })
-
-  }))
   
   
 });
@@ -88,25 +81,25 @@ userRoutes.post('/signin' , (req,res)=>{
           expiresIn:'1h'
       });
 
-          const board = new five.Board()
+              const board = new five.Board()
 
-          board.on('ready', function() {
-           let  lcd = new five.LCD({
-              pins: [7, 8, 9, 10, 11, 12],
-              backlight: 6,
-              rows: 2,
-              cols: 16
-            });
-            lcd.clear().print("Hello");
-            lcd.cursor(1, 0);
-            lcd.clear().print(user.username);
+              board.on('ready', function() {
+               let  lcd = new five.LCD({
+                  pins: [7, 8, 9, 10, 11, 12],
+                  backlight: 6,
+                  rows: 2,
+                  cols: 16
+                });
+                lcd.clear().print("Hello");
+                lcd.cursor(1, 0);
+                lcd.clear().print(user.username);
 
-            this.repl.inject({
-              lcd: lcd
-            });
+                this.repl.inject({
+                  lcd: lcd
+                });
 
-          });
-          res.cookie('token', {user, token}, { httpOnly: true }).status(200).send({user, token})
+              });
+              res.cookie('token', {user, token}, { httpOnly: true }).status(200).send({user, token})
 
         }
 

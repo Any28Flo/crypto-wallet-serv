@@ -8,7 +8,7 @@
     "dev": "nodemon ",
     "start": "nodemon app.js "
   },
-  "author": "",
+  "author": "Analin Flores",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",

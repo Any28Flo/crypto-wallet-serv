@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 mongoose
-      .connect(process.env.DB_DEV, {useNewUrlParser: true})
+      .connect(process.env.DB_PROD, {useNewUrlParser: true, useUnifiedTopology : true, useCreateIndex: true})
       .then(x => {
             console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
           })
@@ -43,7 +43,8 @@ app.use(cors());
 
 
 const index = require('./routes/index');
-app.use('/',index)
+
+app.use('/',index);
 
 app.use('/api',require('./routes/user-routes'));
 

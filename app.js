@@ -22,6 +22,10 @@ mongoose
           });
 
 
+app.use(cors({
+    credentials : true,
+    origin: ['http://localhost:3000', 'https://crypto-wallet-client.herokuapp.com/']
+}));
 
 //MIDDLEWARE SETUP
 
@@ -38,8 +42,6 @@ app.use(cookieParser());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(cors());
 
 
 const index = require('./routes/index');

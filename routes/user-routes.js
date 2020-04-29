@@ -94,5 +94,22 @@ userRoutes.post('/signin' , async (req,res)=>{
 });
 
 
+userRoutes.post("/tokenIsValid", async (req, res) => {
+    try {
+        const token = req.header("x-access-token");
+        if (!token) return res.json(false);
+
+        const verified = jwt.verify(token, process.env.JWT_TOKEN);
+
+        if (!verified) return res.json(false);
+
+        const user = await User.findById(verified.id);
+        if (!user) return res.json(false);
+
+        return res.json(true);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 module.exports = userRoutes;

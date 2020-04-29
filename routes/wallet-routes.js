@@ -28,12 +28,12 @@ walletRoutes.post('/wallets' , (req, res) =>{
 
 walletRoutes.get('/wallets' , (req , res) =>{
  const createdBy= req.query.createdBy;
-
+ console.log(createdBy)
  Wallet.find({'createdBy' :  createdBy })
      .populate('coins')
      .then( wallets =>{
 
-      res.status(200).json({msg: "Save wallet sucefully"})
+      res.status(200).json({wallets: wallets})
      })
      .catch(e => console.log(e))
 });

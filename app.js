@@ -24,7 +24,7 @@ mongoose
 
 app.use(cors({
     credentials : true,
-    origin: ['http://localhost:3000', 'https://crypto-wallet-client.herokuapp.com/']
+    origin: ['http://localhost:3000', 'https://cryptowallet-client.herokuapp.com/']
 }));
 
 //MIDDLEWARE SETUP

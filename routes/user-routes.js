@@ -23,8 +23,8 @@ userRoutes.post('/signup' , async (req, res) =>{
             return res.status(400).json({msg: "Not all fields have been entered"});
         }
         if(password.length < 7){
-            res.status(400).json({msg : 'Make your password at least 8 characters long for security purposes.'});
-            return
+            return res.status(400).json({msg : 'Make your password at least 8 characters long for security purposes.'});
+
         }
         const existingUser = await  User.findOne({username: username});
         if(existingUser) {
@@ -34,15 +34,25 @@ userRoutes.post('/signup' , async (req, res) =>{
         }
         const salt     = await bcrypt.genSaltSync(10);
         const hashPass = await bcrypt.hashSync(password, salt);
+
         const newUser = new User({
             username :username,
             password:hashPass,
             email:email,
             image:image
         });
-        const savedUser = await newUser.save();
-        res.json(savedUser);
 
+        const savedUser = await newUser.save();
+        const token = newToken(savedUser);
+        console.log(savedUser);
+        res.json({
+            token,
+            user:{
+                id:savedUser._id,
+                email: savedUser.email,
+                username : savedUser.username
+            }
+        })
 
     }catch (e) {
         res.status(500).json({e: e.message});
@@ -52,7 +62,6 @@ userRoutes.post('/signup' , async (req, res) =>{
 
 userRoutes.post('/signin' , async (req,res)=>{
   const {email,password} = req.body;
-  console.log(email,password)
   try {
       if(!email || !password){
           return res.status(400).json({msg : 'Need username and password'})
